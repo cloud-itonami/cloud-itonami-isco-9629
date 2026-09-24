@@ -1,0 +1,32 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:physics` runs it.
+;;
+;; README "Robotics premise": a site scheduling/logistics robot coordinates an
+;; elementary-labour crew (ISCO 9629, elementary workers n.e.c.). The physical
+;; work is general site labour: carrying site supplies across the yard and
+;; lifting sacks (cement, sand) from a pallet onto a barrow.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isco-9629"
+ :cases
+ [{:id :site-supplies-across-yard
+   :kind :transport
+   :procedure "yard robot carries a load of site supplies from the store to the work front over compacted gravel"
+   :params {:mass-kg 90.0 :distance-m 120.0 :v-max-mps 1.2 :a-max-mps2 0.5
+            :brake-decel-mps2 0.8 :drive-force-n 350.0 :crr 0.04
+            :cog-height-m 0.55 :support-half-length-m 0.35 :max-time-s 1800.0}
+   :sweep {:param :payload-kg :values [50.0 150.0 250.0 400.0 550.0]}
+   :quantity :cycle-time-s
+   :limit {:max 130.0 :basis "estimate: one yard leg inside the crew's 3-minute supply turnaround"}
+   :boundary {:lo 10.0 :hi 800.0}}
+  {:id :sack-pallet-to-barrow
+   :kind :manipulator
+   :procedure "arm lifts a sack from the pallet and places it in the barrow"
+   :params {:l1-m 0.55 :l2-m 0.45 :m1-kg 6.0 :m2-kg 4.0
+            :from [0.60 0.20] :to [0.40 -0.20] :duration-s 2.5 :steps 500}
+   :sweep {:param :payload-kg :values [10.0 20.0 25.0 40.0 50.0]}
+   :quantity :peak-tau1-nm
+   :limit {:max 200.0 :basis "estimate: continuous shoulder torque of a 20 kg-class industrial arm"}
+   :boundary {:lo 1.0 :hi 100.0}}]}
