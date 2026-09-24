@@ -1,5 +1,5 @@
 (ns elementarywork.actor-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [elementarywork.actor :as actor]
             [elementarywork.store :as store]))
 
