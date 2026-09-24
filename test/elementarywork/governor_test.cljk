@@ -1,5 +1,5 @@
 (ns elementarywork.governor-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [elementarywork.store :as store]
             [elementarywork.advisor :as advisor]
             [elementarywork.governor :as governor]))
